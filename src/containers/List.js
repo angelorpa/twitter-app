@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Tweet from './../components/Tweet';
 import { getTweets } from './../api/tweets';
+import { Spinner } from 'react-bootstrap';
 
 export default function List() {
   const [data, setData] = useState([]);
@@ -24,7 +25,11 @@ export default function List() {
   }, []);
 
   if (loading) {
-    return <p>Loading ....</p>;
+    return (
+      <Spinner animation="border" role="status" style={{ margin: '16px auto' }}>
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
   }
 
   return (
@@ -33,7 +38,7 @@ export default function List() {
       {data.map(function (item) {
         return (
           <Tweet
-            key={item._id}
+            key={item.id}
             user={item.user}
             date={item.date}
             content={item.content}

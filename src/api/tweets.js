@@ -4,6 +4,7 @@ export async function getTweets() {
 
   const transformData = json.data.map(function (item) {
     return {
+      id: item._id,
       content: item.content,
       date: item.createdAt,
       user: {
