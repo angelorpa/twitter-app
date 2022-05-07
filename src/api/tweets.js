@@ -11,7 +11,9 @@ function transformTweet(item) {
 }
 
 export async function getTweets() {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/tweets`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/v1/tweets?direction=desc&sortBy=createdAt`,
+  );
   const json = await response.json();
 
   const transformData = json.data.map(function (item) {
@@ -31,4 +33,24 @@ export async function getTweet({ id }) {
   const json = await response.json();
 
   return transformTweet(json.data);
+}
+
+export async function createTweet(tweet) {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/tweets/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(tweet),
+  });
+
+  const json = await response.json();
+  if (response.ok) {
+    return transformTweet(json.data);
+  } else {
+    return Promise.reject(json.message);
+  }
 }
