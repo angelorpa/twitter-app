@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Tweet from './../components/Tweet';
-import { getTweets } from './../api/tweets';
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 
+import Tweet from './../components/Tweet';
+import { getTweets } from './../api/tweets';
+
 export default function List() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -37,12 +40,14 @@ export default function List() {
       {error && <p>{error.message}</p>}
       {data.map(function (item) {
         return (
-          <Tweet
+          <div
+            onClick={function (event) {
+              navigate(`/tweets/${item.id}`);
+            }}
             key={item.id}
-            user={item.user}
-            date={item.date}
-            content={item.content}
-          />
+          >
+            <Tweet user={item.user} date={item.date} content={item.content} />
+          </div>
         );
       })}
     </>
