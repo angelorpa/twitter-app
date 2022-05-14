@@ -8,7 +8,18 @@ import { Alert } from 'bootstrap';
 
 export default function List() {
   const navigate = useNavigate();
-  const { data, error, loading } = useTweets();
+  const {
+    data,
+    error,
+    loading,
+    actions: { like },
+  } = useTweets();
+
+  function onLike(event, id) {
+    event.stopPropagation();
+
+    like({ id });
+  }
 
   if (loading) {
     return (
@@ -34,6 +45,10 @@ export default function List() {
               date={item.date}
               content={item.content}
               commentsCount={item.commentsCount}
+              likes={item.likes}
+              onLike={function (event) {
+                onLike(event, item.id);
+              }}
             />
           </div>
         );

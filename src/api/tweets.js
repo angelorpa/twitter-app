@@ -12,8 +12,8 @@ function transformTweet(item) {
       name: item.userId ? item.userId.name : 'Unknown',
       username: item.userId ? item.userId.username : 'Unknown',
     },
-    commentsCount: item.comments.length,
     comments: item.comments,
+    likes: item.likes,
   };
 }
 
@@ -39,5 +39,12 @@ export function getTweet({ id }) {
 export function createTweet(payload) {
   return http
     .post(`/tweets/`, payload)
+    .then(({ data: json }) => transformTweet(json.data));
+}
+
+export function updateTweet(payload) {
+  const { id } = payload;
+  return http
+    .patch(`/tweets/${id}`, payload)
     .then(({ data: json }) => transformTweet(json.data));
 }

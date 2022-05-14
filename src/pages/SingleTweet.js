@@ -7,9 +7,20 @@ import useTweet from '../hooks/useTweet';
 
 export default function SingleTweet() {
   const params = useParams();
-  const { data, error, loading } = useTweet({
+  const {
+    data,
+    error,
+    loading,
+    actions: { like },
+  } = useTweet({
     id: params.id,
   });
+
+  function onLike(event) {
+    event.stopPropagation();
+
+    like({ id: data.id });
+  }
 
   if (loading) {
     return (
@@ -23,10 +34,13 @@ export default function SingleTweet() {
     <>
       {error && <Alert variant="danger">{error.message}</Alert>}
       <Tweet
-        user={data?.user}
-        date={data?.date}
-        content={data?.content}
-        commentsCount={data?.commentsCount}
+        user={data.user}
+        date={data.date}
+        content={data.content}
+        commentsCount={data.commentsCount}
+        comments={data.comments}
+        likes={data.likes}
+        onLike={onLike}
       />
     </>
   );
