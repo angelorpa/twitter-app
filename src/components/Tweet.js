@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import PropTypes from 'prop-types';
 
 function Comments({ count = 0 }) {
   return (
@@ -77,3 +78,19 @@ export default function Tweet({
     </Card>
   );
 }
+
+Tweet.propTypes = {
+  user: PropTypes.shape({}),
+  date: PropTypes.string,
+  content: PropTypes.string,
+  likes: PropTypes.number,
+  commentsCount: PropTypes.number,
+};
+
+Tweet.defauyltProps = {
+  user: { name: '', username: '' },
+  date: '',
+  content: '',
+  likes: 0,
+  commentsCount: 0,
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import NavUser from './NavUser';
 
@@ -26,3 +27,7 @@ export default function Header() {
     </Navbar>
   );
 }
+
+Header.propTypes = {};
+
+Header.defaultProps = {};
