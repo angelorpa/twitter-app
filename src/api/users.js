@@ -6,10 +6,7 @@ export async function signIn({ username, password }) {
   return http
     .post(`/users/signin`, { username, password })
     .then(({ data: json }) => {
-      setSession({
-        user: json.data,
-        token: json.meta.token,
-      });
+      setSession(json.meta.token);
 
       return json;
     });

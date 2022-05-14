@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import Header from './containers/Header';
+import UserContext from './containers/UserContext';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Create = React.lazy(() => import('./pages/Create'));
@@ -11,8 +12,15 @@ const SignUp = React.lazy(() => import('./pages/SignUp'));
 const SingleTweet = React.lazy(() => import('./pages/SingleTweet'));
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
   return (
-    <>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+      }}
+    >
       <Header />
       <Container>
         <Row>
@@ -30,6 +38,6 @@ export default function App() {
           </Col>
         </Row>
       </Container>
-    </>
+    </UserContext.Provider>
   );
 }

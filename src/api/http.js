@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
 
-    const { token = '' } = getSession();
+    const token = getSession();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -34,12 +34,12 @@ instance.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       clearSession();
       document.location = '/signin';
     }
 
-    if (error.response.data.message) {
+    if (error.response?.data?.message) {
       return Promise.reject(error.response.data.message);
     }
 

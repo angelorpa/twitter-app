@@ -2,11 +2,9 @@ import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getSession, isAuthenticated } from '../auth';
+import NavUser from './NavUser';
 
 export default function Header() {
-  const { user = {} } = getSession();
-
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -21,25 +19,7 @@ export default function Header() {
             </Link>
           </Nav>
           <Nav>
-            {isAuthenticated() ? (
-              <>
-                <Link to="/profile" className="nav-link">
-                  @{user.username}
-                </Link>
-                <Link to="/signout" className="nav-link">
-                  Sign Out
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/signup" className="nav-link">
-                  Sign Up
-                </Link>
-                <Link to="/signin" className="nav-link">
-                  Sign In
-                </Link>
-              </>
-            )}
+            <NavUser />
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,21 +1,11 @@
-export function setSession({ user = {}, token = '' }) {
+export function setSession(token = '') {
   localStorage.setItem('token', token);
-  localStorage.setItem('user', JSON.stringify(user));
 }
 
 export function getSession() {
-  return {
-    token: localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user')),
-  };
+  return localStorage.getItem('token');
 }
 
 export function clearSession() {
   localStorage.removeItem('token');
-  localStorage.removeItem('user');
-}
-
-export function isAuthenticated() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  return Boolean(user?.name);
 }
