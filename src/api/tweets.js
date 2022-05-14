@@ -1,10 +1,12 @@
+import { formatDistance } from 'date-fns';
+
 import http from './http';
 
 function transformTweet(item) {
   return {
     id: item._id,
     content: item.content,
-    date: item.createdAt,
+    date: formatDistance(new Date(item.createdAt), new Date()),
     user: {
       name: item.userId ? item.userId.name : 'Unknown',
       username: item.userId ? item.userId.username : 'Unknown',
