@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Alert, Spinner } from 'react-bootstrap';
+import { Alert, Button, Form, Spinner } from 'react-bootstrap';
 
 import Tweet from '../components/Tweet';
 import useTweet from '../hooks/useTweet';
+import Comment from '../components/Comment';
 
 export default function SingleTweet() {
   const params = useParams();
@@ -11,7 +12,7 @@ export default function SingleTweet() {
     data,
     error,
     loading,
-    actions: { like },
+    actions: { like, comment },
   } = useTweet({
     id: params.id,
   });
@@ -20,6 +21,19 @@ export default function SingleTweet() {
     event.stopPropagation();
 
     like({ id: data.id });
+  }
+
+  function onComment(event) {
+    event.preventDefault();
+
+    const { content } = event.target.elements;
+
+    comment({
+      content: content.value,
+      tweetId: data.id,
+    });
+
+    content.value = '';
   }
 
   if (loading) {
@@ -38,10 +52,29 @@ export default function SingleTweet() {
         date={data.date}
         content={data.content}
         commentsCount={data.commentsCount}
-        comments={data.comments}
         likes={data.likes}
         onLike={onLike}
       />
+      <Form onSubmit={onComment}>
+        <Form.Group className="mb-3">
+          <Form.Label>Content</Form.Label>
+          <Form.Control as="textarea" name="content" />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Comment
+        </Button>
+      </Form>
+      {data.comments.map(function (item) {
+        return (
+          <Comment
+            key={item._id}
+            user={item.user}
+            content={item.content}
+            date={item.date}
+          />
+        );
+      })}
     </>
   );
 }

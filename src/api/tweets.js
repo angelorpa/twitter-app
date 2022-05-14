@@ -12,7 +12,18 @@ function transformTweet(item) {
       name: item.userId ? item.userId.name : 'Unknown',
       username: item.userId ? item.userId.username : 'Unknown',
     },
-    comments: item.comments,
+    comments: Array.isArray(item.comments)
+      ? item.comments.map((comment) => {
+          return {
+            content: comment.content,
+            user: {
+              name: comment.userId ? comment.userId.name : 'Unknown',
+              username: comment.userId ? comment.userId.username : 'Unknown',
+            },
+            date: formatDistance(new Date(comment.createdAt), new Date()),
+          };
+        })
+      : [],
     likes: item.likes,
   };
 }

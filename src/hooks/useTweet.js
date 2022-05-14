@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { createComment } from '../api/comments';
 
 import { getTweet, updateTweet } from '../api/tweets';
 
@@ -24,12 +25,18 @@ export default function useTweet({ id }) {
     updateTweet(payload);
   }
 
+  async function comment(payload) {
+    await createComment(payload);
+    mutate();
+  }
+
   return {
     data: data ?? {},
     error,
     loading: !error && !data,
     actions: {
       like,
+      comment,
     },
   };
 }
