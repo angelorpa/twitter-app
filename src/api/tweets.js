@@ -4,6 +4,7 @@ import http from './http';
 
 function transformTweet(item) {
   return {
+    commentsCount: Array.isArray(item.comments) ? item.comments.length : 0,
     id: item._id,
     content: item.content,
     date: formatDistance(new Date(item.createdAt), new Date()),
@@ -11,6 +12,8 @@ function transformTweet(item) {
       name: item.userId ? item.userId.name : 'Unknown',
       username: item.userId ? item.userId.username : 'Unknown',
     },
+    commentsCount: item.comments.length,
+    comments: item.comments,
   };
 }
 

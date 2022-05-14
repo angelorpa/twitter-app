@@ -29,7 +29,12 @@ export default function List() {
             }}
             key={item.id}
           >
-            <Tweet user={item.user} date={item.date} content={item.content} />
+            <Tweet
+              user={item.user}
+              date={item.date}
+              content={item.content}
+              commentsCount={item.commentsCount}
+            />
           </div>
         );
       })}

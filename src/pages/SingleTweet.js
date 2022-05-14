@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 
 import Tweet from '../components/Tweet';
 import useTweet from '../hooks/useTweet';
@@ -21,8 +21,13 @@ export default function SingleTweet() {
 
   return (
     <>
-      {error && <p>{error.message}</p>}
-      <Tweet user={data?.user} date={data?.date} content={data?.content} />
+      {error && <Alert variant="danger">{error.message}</Alert>}
+      <Tweet
+        user={data?.user}
+        date={data?.date}
+        content={data?.content}
+        commentsCount={data?.commentsCount}
+      />
     </>
   );
 }
