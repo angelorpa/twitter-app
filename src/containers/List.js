@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 
 import Tweet from './../components/Tweet';
-import { getTweets } from './../api/tweets';
+import useTweets from '../hooks/useTweets';
+import { Alert } from 'bootstrap';
 
 export default function List() {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  async function loadList() {
-    setLoading(true);
-    try {
-      const response = await getTweets();
-      setData(response.data);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
-  }
-
-  useEffect(function () {
-    loadList();
-  }, []);
+  const { data, error, loading } = useTweets();
 
   if (loading) {
     return (
@@ -37,7 +20,7 @@ export default function List() {
 
   return (
     <>
-      {error && <p>{error.message}</p>}
+      {error && <Alert variant="danger">{error.message}</Alert>}
       {data.map(function (item) {
         return (
           <div
