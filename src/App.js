@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import Header from './containers/Header';
-import UserContext from './containers/UserContext';
+import { UserProvider } from './containers/UserContext';
+import ProtectedRoute from './containers/ProtectedRoute';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Create = React.lazy(() => import('./pages/Create'));
@@ -12,15 +13,8 @@ const SignUp = React.lazy(() => import('./pages/SignUp'));
 const SingleTweet = React.lazy(() => import('./pages/SingleTweet'));
 
 export default function App() {
-  const [user, setUser] = useState(null);
-
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-      }}
-    >
+    <UserProvider>
       <Header />
       <Container>
         <Row>
@@ -29,7 +23,14 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/tweets/:id" element={<SingleTweet />} />
-                <Route path="/create" element={<Create />} />
+                <Route
+                  path="/create"
+                  element={
+                    <ProtectedRoute>
+                      <Create />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="*" element={<Home />} />
@@ -38,6 +39,6 @@ export default function App() {
           </Col>
         </Row>
       </Container>
-    </UserContext.Provider>
+    </UserProvider>
   );
 }
