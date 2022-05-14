@@ -52,7 +52,7 @@ export default function SignIn() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" placeholder="submit">
           Sign In
         </Button>
       </Form>
